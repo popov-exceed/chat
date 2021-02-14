@@ -21,12 +21,14 @@ function Chat() {
        form.resetFields();
     };
     const messages = useSelector(state => state.messages.list);
+    const user = useSelector(state => state.auth.user);
+
     const onlineUsers = useSelector(state => state.onlineUsers.list);
     const viewMessages = (message) => {
         return(<List.Item>
             <List.Item.Meta title={message.author.name} description={message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
-            <List.Item>{!message.read && <CheckOutlined />}</List.Item>
+            <List.Item>{message.read && <CheckOutlined />}</List.Item>
         </List.Item>)
     }
 
@@ -51,8 +53,10 @@ function Chat() {
         socket.on("new message", (message) => {
             dispatch({type: "NEW_MESSAGE", payload: {message}});
             animateScroll.scrollToBottom({containerId: "chat"})
+            user._id !== message.author._id && socket.emit("read message", message._id);
         });
         socket.on("new user", (user) => dispatch({type: "NEW_USER", payload: {user}}));
+        socket.on("read message", (messageId) => dispatch({type: "READ_MESSAGE", payload: {messageId}}));
         socket.on("user exit", (user) => dispatch({type: "LEAVE_USER", payload: {user}}))
         return () => socket.disconnect();
     }, []);

@@ -1,5 +1,5 @@
 import userTypes from "../constants/user";
-const initialState = { user: null, token: localStorage.getItem("Token") };
+const initialState = { user: localStorage.getItem("User") ? JSON.parse(localStorage.getItem("User")): null, token: localStorage.getItem("Token") };
 
 export function authentication(state = initialState, {payload, type}) {
     switch (type) {
