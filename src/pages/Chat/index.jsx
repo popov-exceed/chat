@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import socketAPI from "../../api/chat";
 import moment from "moment";
 import {logout} from "../../store/actions/auth";
+import {CheckOutlined} from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider} = Layout;
 const socket = new socketAPI();
@@ -22,7 +23,7 @@ function Index() {
         return(<List.Item>
             <List.Item.Meta title={message.author.name} description={message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
-            <List.Item>{message.content}</List.Item>
+            <List.Item>{message.read && <CheckOutlined />}</List.Item>
         </List.Item>)
     }
 
@@ -60,11 +61,11 @@ function Index() {
              <List style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
          </Content>
         <Footer>
-            <Form name="name" form={form} onFinish={sendMessage} layout="inline" >
-                <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} wrapperCol={{span: 20}}>
+            <Form name="name" form={form} onFinish={sendMessage} layout="inline" wrapperCol={{lg: 2}}>
+                <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
                     <Input placeholder="Enter a new message..."/>
                 </Form.Item>
-                <Form.Item wrapperCol={{span: 4}}>
+                <Form.Item >
                     <Button type="primary" htmlType="submit" disabled={disabledSend}>Send message</Button>
                 </Form.Item>
             </Form>
