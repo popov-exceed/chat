@@ -47,6 +47,10 @@ function Chat() {
         socket.connect(() => disableSend(false),() => disableSend(true)).catch(e => console.log(e.message));
         socket.on("connected",({onlineUsers,lastsMessages}) => {
             dispatch({type: "GET_USERS", payload: {users: onlineUsers}});
+            const unReadMessages = lastsMessages.filter(message => !message.read);
+            unReadMessages.forEach(message => {
+                user._id !== message.author._id && socket.emit("read message", message._id);
+            })
             dispatch({type: "GET_MESSAGES", payload: {messages: lastsMessages}});
             animateScroll.scrollToBottom({containerId: "chat"})
         });
