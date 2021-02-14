@@ -45,7 +45,8 @@ function Chat() {
             dispatch({type: "GET_MESSAGES", payload: {messages: lastsMessages}});
         });
         socket.on("new message", (message) => dispatch({type: "NEW_MESSAGE", payload: {message}}));
-        socket.on("user", (user) => dispatch({type: "NEW_USER", payload: {user}}));
+        socket.on("new user", (user) => dispatch({type: "NEW_USER", payload: {user}}));
+        socket.on("user exit", (user) => dispatch({type: "LEAVE_USER", payload: {user}}))
         return () => socket.disconnect();
     }, []);
     return(
@@ -79,6 +80,7 @@ function Chat() {
             </Form>
         </Footer>
     </Layout>
+
         </div>)
 }
 
