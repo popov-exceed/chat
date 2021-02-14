@@ -6,7 +6,7 @@ export function authentication(state = initialState, {payload, type}) {
         case userTypes.SING_IN:
             return {...state, user: payload.user, token: payload.token}
         case userTypes.LOGOUT:
-            return initialState;
+            return { user: null, token: "" };
         default:
             return state
     }

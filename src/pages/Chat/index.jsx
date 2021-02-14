@@ -6,10 +6,13 @@ import socketAPI from "../../api/chat";
 import moment from "moment";
 import {logout} from "../../store/actions/auth";
 import {CheckOutlined} from "@ant-design/icons";
+import {animateScroll} from "react-scroll";
+
 
 const { Header, Content, Footer, Sider} = Layout;
 const socket = new socketAPI();
 function Chat() {
+
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [disabledSend, disableSend] = useState(true);
@@ -43,8 +46,12 @@ function Chat() {
         socket.on("connected",({onlineUsers,lastsMessages}) => {
             dispatch({type: "GET_USERS", payload: {users: onlineUsers}});
             dispatch({type: "GET_MESSAGES", payload: {messages: lastsMessages}});
+            animateScroll.scrollToBottom({containerId: "chat"})
         });
-        socket.on("new message", (message) => dispatch({type: "NEW_MESSAGE", payload: {message}}));
+        socket.on("new message", (message) => {
+            dispatch({type: "NEW_MESSAGE", payload: {message}});
+            animateScroll.scrollToBottom({containerId: "chat"})
+        });
         socket.on("new user", (user) => dispatch({type: "NEW_USER", payload: {user}}));
         socket.on("user exit", (user) => dispatch({type: "LEAVE_USER", payload: {user}}))
         return () => socket.disconnect();
@@ -59,7 +66,7 @@ function Chat() {
         </Layout>
         <Layout >
          <Content>
-             <List style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
+             <List id="chat" style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
          </Content>
         <Footer>
             <Form name="name" form={form} onFinish={sendMessage}>
