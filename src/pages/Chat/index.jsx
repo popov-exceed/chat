@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, Button, List, Layout} from "antd";
+import {Form, Input, Button, List, Layout, Row, Col} from "antd";
 import isAuthHoc from "../../hocs/auth";
 import {useDispatch, useSelector} from "react-redux";
 import socketAPI from "../../api/chat";
@@ -9,7 +9,7 @@ import {CheckOutlined} from "@ant-design/icons";
 
 const { Header, Content, Footer, Sider} = Layout;
 const socket = new socketAPI();
-function Index() {
+function Chat() {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [disabledSend, disableSend] = useState(true);
@@ -23,7 +23,7 @@ function Index() {
         return(<List.Item>
             <List.Item.Meta title={message.author.name} description={message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
-            <List.Item>{message.read && <CheckOutlined />}</List.Item>
+            <List.Item>{!message.read && <CheckOutlined />}</List.Item>
         </List.Item>)
     }
 
@@ -61,17 +61,25 @@ function Index() {
              <List style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
          </Content>
         <Footer>
-            <Form name="name" form={form} onFinish={sendMessage} layout="inline" wrapperCol={{lg: 2}}>
-                <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
-                    <Input placeholder="Enter a new message..."/>
-                </Form.Item>
-                <Form.Item >
-                    <Button type="primary" htmlType="submit" disabled={disabledSend}>Send message</Button>
-                </Form.Item>
+            <Form name="name" form={form} onFinish={sendMessage}>
+                <Row>
+                    <Col span={20}>
+                        <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
+                        <Input placeholder="Enter a new message..."/>
+                    </Form.Item>
+                    </Col>
+                    <Col span={4}>
+                        <Form.Item >
+                            <Button type="primary" htmlType="submit" disabled={disabledSend}>Send message</Button>
+                        </Form.Item>
+                    </Col>
+
+                </Row>
+
             </Form>
         </Footer>
     </Layout>
         </div>)
 }
 
-export default isAuthHoc(Index);
+export default isAuthHoc(Chat);

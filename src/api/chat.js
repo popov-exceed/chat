@@ -8,7 +8,7 @@ export default class socketAPI {
     connect(connectClb,disconnectClb) {
         this.socket = io(host, {
             auth: {
-                token: localStorage.getItem("Token")
+                token: store.getState().auth.token
             }
         });
         return new Promise((resolve, reject) => {

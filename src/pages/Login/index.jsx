@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 
 function Login() {
     const dispatch = useDispatch();
-    const loggedIn = useSelector(state => state.auth.loggedIn);
+    const token = useSelector(state => state.auth.token);
     const singIn = ({userName}) => {
        dispatch(login(userName));
     }
@@ -18,7 +18,7 @@ function Login() {
                 <Button type="primary" htmlType="submit">Sing in</Button>
             </Form.Item>
         </Form>
-        {loggedIn && <Redirect to="/"/>}
+        {token && <Redirect to="/"/>}
     </Layout>);
 }
 

@@ -3,9 +3,8 @@ import api from "../../api/auth";
 
 export const login = (userName) =>  dispatch => {
     api.login(userName).then((response) => {
-        dispatch({type: typesUser.SING_IN, payload: {user: response.data.name}});
+        dispatch({type: typesUser.SING_IN, payload: {token: response.data.token}});
         localStorage.setItem("Token", response.data.token);
-        localStorage.setItem("loggedIn", "true");
     });
 };
 

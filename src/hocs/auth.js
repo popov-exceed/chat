@@ -3,8 +3,8 @@ import {Redirect} from "react-router-dom";
 
 function isAuthHoc(Component) {
     const Wrapper = (props) => {
-        const loggedIn = useSelector((state) => state.auth.loggedIn);
-        return <>{loggedIn ? <Component {...props} /> : <Redirect to="/login" />}</>;
+        const token = useSelector((state) => state.auth.token);
+        return <>{token ? <Component {...props} /> : <Redirect to="/login" />}</>;
     };
     return Wrapper;
 }
