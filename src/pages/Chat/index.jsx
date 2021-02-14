@@ -29,6 +29,9 @@ function Chat() {
             <List.Item.Meta title={message.author.name} description={message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
             <List.Item>{message.read && <CheckOutlined />}</List.Item>
+            {message.video && <iframe id="ytplayer" type="text/html" width="640" height="360"
+                                      src={`http://www.youtube.com/embed/${message.video}`}
+                                      frameBorder="0"/>}
         </List.Item>)
     }
 
