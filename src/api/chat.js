@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import store from "../store";
 
 
-const host = 'http://localhost:8000';
+const host = process.env.REACT_APP_API_HOST;
 export default class socketAPI {
     socket;
     connect(connectClb,disconnectClb) {
