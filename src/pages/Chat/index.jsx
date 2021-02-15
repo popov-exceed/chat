@@ -9,7 +9,7 @@ import {CheckOutlined} from "@ant-design/icons";
 import {animateScroll} from "react-scroll";
 
 
-const { Header, Content, Footer, Sider} = Layout;
+const { Content, Footer, Sider} = Layout;
 const socket = new socketAPI();
 function Chat() {
 
@@ -24,14 +24,20 @@ function Chat() {
     const user = useSelector(state => state.auth.user);
 
     const onlineUsers = useSelector(state => state.onlineUsers.list);
+
+    const viewSnippet = (message) => {
+        return (<>
+            <p>{message.content}</p>
+            <iframe id="ytplayer" type="text/html" width="640" height="360"
+                                  src={`http://www.youtube.com/embed/${message.video}`}
+                                  frameBorder="0"/></>);
+    };
+
     const viewMessages = (message) => {
         return(<List.Item>
-            <List.Item.Meta title={message.author.name} description={message.content}/>
+            <List.Item.Meta title={message.author.name} description={message.video ? viewSnippet(message) : message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
             <List.Item>{message.read && <CheckOutlined />}</List.Item>
-            {message.video && <iframe id="ytplayer" type="text/html" width="640" height="360"
-                                      src={`http://www.youtube.com/embed/${message.video}`}
-                                      frameBorder="0"/>}
         </List.Item>)
     }
 
