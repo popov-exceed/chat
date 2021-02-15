@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import socketAPI from "../../api/chat";
 import moment from "moment";
 import {logout} from "../../store/actions/auth";
-import {CheckOutlined, LogoutOutlined, UserOutlined} from "@ant-design/icons";
+import {CheckOutlined, LogoutOutlined, SendOutlined, UserOutlined} from "@ant-design/icons";
 import {animateScroll} from "react-scroll";
 
 
@@ -43,7 +43,7 @@ function Chat() {
         return (<>
             <Paragraph>{message.content}</Paragraph>
             <iframe id="ytplayer" type="text/html" width="640" height="360"
-                                  src={`http://www.youtube.com/embed/${message.video}`}
+                                  src={`https://www.youtube.com/embed/${message.video}`}
                                   frameBorder="0"/></>);
     };
 
@@ -113,19 +113,9 @@ function Chat() {
          </Content>
         <Footer>
             <Form name="name" form={form} onFinish={sendMessage}>
-                <Row>
-                    <Col span={20}>
-                        <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
-                        <Input placeholder="Enter a new message..."/>
-                    </Form.Item>
-                    </Col>
-                    <Col span={4}>
-                        <Form.Item style={{marginLeft: "30px"}}>
-                            <Button type="primary" htmlType="submit" disabled={disabledSend}>Send message</Button>
-                        </Form.Item>
-                    </Col>
-
-                </Row>
+                <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
+                            <Input placeholder="Enter a new message..."  suffix={<Button type="primary" htmlType="submit" icon={<SendOutlined />}disabled={disabledSend} />}/>
+                </Form.Item>
 
             </Form>
         </Footer>
