@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, Button, List, Layout, Row, Col} from "antd";
+import {Form, Input, Button, List, Layout, Row, Col, Avatar} from "antd";
 import isAuthHoc from "../../hocs/auth";
 import {useDispatch, useSelector} from "react-redux";
 import socketAPI from "../../api/chat";
 import moment from "moment";
 import {logout} from "../../store/actions/auth";
-import {CheckOutlined} from "@ant-design/icons";
+import {CheckOutlined, UserOutlined} from "@ant-design/icons";
 import {animateScroll} from "react-scroll";
 
 
@@ -35,7 +35,7 @@ function Chat() {
 
     const viewMessages = (message) => {
         return(<List.Item>
-            <List.Item.Meta title={message.author.name} description={message.video ? viewSnippet(message) : message.content}/>
+            <List.Item.Meta avatar={<Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />} title={message.author.name} description={message.video ? viewSnippet(message) : message.content}/>
             <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
             <List.Item>{message.read && <CheckOutlined />}</List.Item>
         </List.Item>)
