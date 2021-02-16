@@ -10,6 +10,7 @@ import {animateScroll} from "react-scroll";
 
 
 import Message from "../../components/Message";
+import FieldMessageSend from "../../components/FieldMessageSend";
 
 const { Content, Footer, Sider} = Layout;
 const {Text, Title} = Typography;
@@ -29,13 +30,9 @@ const socket = new socketAPI();
 function Chat() {
 
     const dispatch = useDispatch();
-    const [form] = Form.useForm();
     const [disabledSend, disableSend] = useState(true);
     const [closedSidebar, closeSidebar] = useState(false);
-    const sendMessage = (values) => {
-       socket.emit("new message", {content: values.message});
-       form.resetFields();
-    };
+
     const messages = useSelector(state => state.messages.list);
     const user = useSelector(state => state.auth.user);
 
@@ -98,12 +95,7 @@ function Chat() {
              <List id="chat" style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
          </Content>
         <Footer>
-            <Form name="name" form={form} onFinish={sendMessage}>
-                <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
-                            <Input placeholder="Enter a new message..."  suffix={<Button type="primary" htmlType="submit" icon={<SendOutlined />}disabled={disabledSend} />}/>
-                </Form.Item>
-
-            </Form>
+            <FieldMessageSend socket={socket} disabledSend={disabledSend}/>
         </Footer>
     </Layout>
 
