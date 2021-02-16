@@ -30,7 +30,7 @@ export default function Message({date,author,content,read,video}) {
             />
 
             <List.Item>{moment(date).format("HH:mm")}</List.Item>
-            <List.Item>{read && <CheckOutlined />}</List.Item>
+            <List.Item>{read && <CheckOutlined style={{marginLeft:"10px"}}/>}</List.Item>
         </List.Item>
     )
 }

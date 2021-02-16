@@ -92,7 +92,7 @@ function Chat() {
         </Layout>
         <Layout style={{paddingLeft: "30px"}}>
          <Content>
-             <List id="chat" style={{maxHeight: "90vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
+             <List id="chat" style={{maxHeight: "85vh", overflowY: "scroll"}} renderItem={viewMessages} dataSource={messages} locale={{emptyText: disabledSend ? "Not connection" : "Not messages"}}></List>
          </Content>
         <Footer>
             <FieldMessageSend socket={socket} disabledSend={disabledSend}/>

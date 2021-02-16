@@ -14,7 +14,17 @@ export default function FieldMessageSend({socket, disabledSend}) {
 
     return(<Form name="name" form={form} onFinish={sendMessage}>
         <Form.Item name="message" rules={[{ required: true, message: 'Please input your message!' }]} >
-            <Input size="large" placeholder="Enter a new message..."  suffix={<Button type="primary" htmlType="submit" icon={<SendOutlined />} disabled={disabledSend} />}/>
+            <Input size="large"
+                   placeholder="Enter a new message..."
+                   suffix={<Button
+                       type="primary"
+                       htmlType="submit"
+                       icon={<SendOutlined/>}
+                       disabled={disabledSend}
+                   />}
+                   style={{height: "8vh"}}
+                   type="textarea"
+            />
         </Form.Item>
 
     </Form>);
