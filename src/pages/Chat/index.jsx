@@ -3,14 +3,16 @@ import {Form, Input, Button, List, Layout, Row, Col, Avatar, Typography} from "a
 import isAuthHoc from "../../hocs/auth";
 import {useDispatch, useSelector} from "react-redux";
 import socketAPI from "../../api/chat";
-import moment from "moment";
+
 import {logout} from "../../store/actions/auth";
-import {CheckOutlined, LogoutOutlined, SendOutlined, UserOutlined} from "@ant-design/icons";
+import { LogoutOutlined, SendOutlined, UserOutlined} from "@ant-design/icons";
 import {animateScroll} from "react-scroll";
 
 
+import Message from "../../components/Message";
+
 const { Content, Footer, Sider} = Layout;
-const {Text, Link, Paragraph, Title} = Typography;
+const {Text, Title} = Typography;
 
 
 const styles = {
@@ -39,26 +41,10 @@ function Chat() {
 
     const onlineUsers = useSelector(state => state.onlineUsers.list);
 
-    const viewSnippet = (message) => {
-        return (<>
-            <Paragraph>{message.content}</Paragraph>
-            <iframe id="ytplayer" type="text/html" width="640" height="360"
-                                  src={`https://www.youtube.com/embed/${message.video}`}
-                                  frameBorder="0"/></>);
-    };
+
 
     const viewMessages = (message) => {
-        return(<List.Item>
-            <List.Item.Meta
-                avatar={<Avatar style={{ backgroundColor: '#87d068' }}
-                                icon={<UserOutlined />} />}
-                            title={<Text strong>{message.author.name}</Text>}
-                description={message.video ? viewSnippet(message) : <Paragraph>{message.content}</Paragraph>}
-            />
-
-            <List.Item>{moment(message.date).format("HH:mm")}</List.Item>
-            <List.Item>{message.read && <CheckOutlined />}</List.Item>
-        </List.Item>)
+        return(<Message date={message.date} video={message.video ? message.video : null} author={message.author} content={message.content} read={message.read} />)
     }
 
     const viewOnlineUsers = (user) => {
